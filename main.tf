@@ -2,20 +2,20 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      region = "us-west-2"
+      region = "us-east-1"
     }
   }
   backend "s3" {
     bucket = "6c4273bb-8500-0a06-a243-7d9480f2d23f-backend"
     key    = "terraform.tfstate"
-    region = "us-west-2"
+    region = "us-east-1"
   }
 }
 
 
 # Circleci configuration
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-1"
 }
 
 provider "template" {
