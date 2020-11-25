@@ -51,7 +51,7 @@ module "instances" {
   instance-type            = "t2.micro"
   ssh-key-arn              = "arn:aws:secretsmanager:us-east-1:779136181681:secret:dgoytia-ssh-key-2-6JJZH2"
   key_pair_name            = "dgoytia"
-  monitoring               = false
+  monitoring               = true
   servers-count            = 1
   bootstrap_scripts_bucket = "bootstrap-scripts-ssa"
   bootstrap_script_key     = "networking-performance-benchmarking/ipref.sh"
