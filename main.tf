@@ -2,20 +2,20 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      region = "us-east-1"
+      region = "us-west-2"
     }
   }
   backend "s3" {
-    bucket = "17f1c934-1551-98df-62ba-0b73a6b707cd-backend"
+    bucket = "6c4273bb-8500-0a06-a243-7d9480f2d23f-backend"
     key    = "terraform.tfstate"
-    region = "us-east-1"
+    region = "us-west-2"
   }
 }
 
 
 # Circleci configuration
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 provider "template" {
@@ -51,9 +51,10 @@ module "instances" {
   instance-type            = "t2.micro"
   ssh-key-arn              = "arn:aws:secretsmanager:us-east-1:779136181681:secret:dgoytia-ssh-key-2-6JJZH2"
   key_pair_name            = "dgoytia"
+  monitoring               = true
   servers-count            = 1
   bootstrap_scripts_bucket = "bootstrap-scripts-ssa"
-  bootstrap_script_key     = "networking-performance-benchmarking/ipref.sht"
+  bootstrap_script_key     = "networking-performance-benchmarking/ipref.sh"
   vpc_id                   = module.network.VPC_ID
   subnet_id                = module.network.SUBNET_ID
 }
