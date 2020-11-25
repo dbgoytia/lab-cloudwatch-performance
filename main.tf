@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "6c4273bb-8500-0a06-a243-7d9480f2d23f-backend"
+    bucket = "880ba170-1f3b-5bdd-9b8f-fc1e7c1e7baa-backend"
     key    = "terraform.tfstate"
     region = "us-east-1"
   }
