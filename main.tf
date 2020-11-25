@@ -45,6 +45,7 @@ module "network" {
   cidr_block_subnet = "10.0.1.0/24"
 }
 
+
 # Deploy the instance with encypted root device
 module "instances" {
   source                   = "git@github.com:dbgoytia/instances-tf.git"
@@ -57,4 +58,32 @@ module "instances" {
   bootstrap_script_key     = "networking-performance-benchmarking/ipref.sh"
   vpc_id                   = module.network.VPC_ID
   subnet_id                = module.network.SUBNET_ID
+}
+
+# Setup SNS topic for alerting
+resource "aws_sns_topic" "alarm" {
+  name = "alarms-topic"
+  delivery_policy = <<EOF
+{
+  "http": {
+    "defaultHealthyRetryPolicy": {
+      "minDelayTarget": 20,
+      "maxDelayTarget": 20,
+      "numRetries": 3,
+      "numMaxDelayRetries": 0,
+      "numNoDelayRetries": 0,
+      "numMinDelayRetries": 0,
+      "backoffFunction": "linear"
+    },
+    "disableSubscriptionOverrides": false,
+    "defaultThrottlePolicy": {
+      "maxReceivesPerSecond": 1
+    }
+  }
+}
+EOF
+
+  provisioner "local-exec" {
+    command = "aws sns subscribe --topic-arn ${self.arn} --protocol email --notification-endpoint ${var.alarms_email}"
+  }
 }
