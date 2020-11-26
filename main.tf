@@ -51,10 +51,24 @@ module "instances" {
   instance-type            = "t2.micro"
   ssh-key-arn              = "arn:aws:secretsmanager:us-east-1:779136181681:secret:dgoytia-ssh-key-2-6JJZH2"
   key_pair_name            = "dgoytia"
-  monitoring               = false
+  monitoring               = true
   servers-count            = 1
   bootstrap_scripts_bucket = "bootstrap-scripts-ssa"
   bootstrap_script_key     = "networking-performance-benchmarking/ipref.sh"
   vpc_id                   = module.network.VPC_ID
   subnet_id                = module.network.SUBNET_ID
+}
+
+# Create the alarm for CPU utilization
+resource "aws_cloudwatch_metric_alarm" "foobar" {
+  alarm_name                = "terraform-test-foobar5"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "CPUUtilization"
+  namespace                 = "AWS/EC2"
+  period                    = "120"
+  statistic                 = "Average"
+  threshold                 = "80"
+  alarm_description         = "This metric monitors ec2 cpu utilization"
+  insufficient_data_actions = []
 }
