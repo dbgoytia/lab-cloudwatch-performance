@@ -11,7 +11,7 @@ jobs:
           name: terraform init & plan
           command: |
             terraform init
-            terraform plan -out tfapply
+            terraform plan -out tfapply -var alarms_email=$alarms_email
       - persist_to_workspace:
           root: .
           paths:
@@ -26,7 +26,7 @@ jobs:
       - run:
           name: terraform
           command: |
-            terraform apply -auto-approve tfapply -var alarms_email=$alarms_email
+            terraform apply -auto-approve tfapply 
       - persist_to_workspace:
           root: .
           paths:
