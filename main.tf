@@ -70,6 +70,7 @@ resource "aws_cloudwatch_metric_alarm" "foobar" {
   statistic                 = "Average"
   threshold                 = "80"
   alarm_description         = "This metric monitors ec2 cpu utilization"
+  alarm_actions = [aws_sns_topic.alarm.arn]
   insufficient_data_actions = []
 }
 
